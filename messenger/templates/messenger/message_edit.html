@@ -2,13 +2,12 @@
 
 {% block content %}
   <h2>Edit a message!</h2>
-    <form action="/message_save.html" method="post">
+    <form action="/message_update/{{ message.id }}/" method="post">
         {% csrf_token %}
         <h4>Recipient</h4>
-        {{ message.text }}
         <select name="recipient">
             {% for user in users %}
-                {% if message.receiver %}
+                {% if message.receiver == user %}
                     <option value="{{ user }}" selected="selected">{{ user }}</option>
                 {% else %}
                     <option value="{{ user }}">{{ user }}</option>

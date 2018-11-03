@@ -9,7 +9,7 @@
         <sup>{{ message.date }}</sup>
         <form action="/message_edit.html" method="post" >
             {% csrf_token %}
-            <button name="message_edit" type="submit" value="{{ message }}">Edit</button>
+            <button name="message_edit" type="submit" value="{{ message.id }}">Edit</button>
         </form>
         <br>
         <hr>

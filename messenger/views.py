@@ -48,7 +48,23 @@ def message_save(request):
                     sent=False,
                     sender=sender,
                     receiver=receiver)
+
     m.save()
+    return redirect('/inbox.html')
+
+
+@login_required
+def message_update(request, message_id):
+    old_message = Message.objects.filter(id=message_id)[0]
+    old_message.sender = request.user
+    old_message.text = request.POST.get('message')
+    receiver_username = request.POST.get('recipient')
+    old_message.receiver = User.objects.get(username=receiver_username)
+    if request.POST.get('submit'):
+        old_message.sent = True
+    else:   # elif request.POST.get('save')
+        old_message.sent = False
+    old_message.save()
     return redirect('/inbox.html')
 
 @login_required
@@ -71,11 +87,7 @@ def drafts(request):
 @login_required
 def message_edit(request):
     users = User.objects.all()
-    message = request.POST.get('message_edit')
-    print(message)
-    return render(request, 'messenger/message_edit.html', {'users': users, 'message': message})
-
-
-
-
+    id = request.POST.get('message_edit')
+    message = Message.objects.filter(id=id)
+    return render(request, 'messenger/message_edit.html', {'users': users, 'message': message[0]})
 
