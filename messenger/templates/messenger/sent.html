@@ -1,7 +1,7 @@
 {% extends 'messenger/base.html' %}
 
 {% block content %}
-  <h2>Inbox</h2>
+  <h2>Sent</h2>
     {% for message in filteredMessageObjects %}
         <h5>{{ message.receiver }}</h5>
         <p>{{ message.text }}</p>

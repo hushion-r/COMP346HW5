@@ -41,18 +41,27 @@ def message_save(request):
     sender = request.user
     text = request.POST.get('message')
     receiver_username = request.POST.get('recipient')
-
-
     receiver = User.objects.get(username=receiver_username)
     m = Message(text=text,
                 sent=True,
                 sender=sender,
                 receiver=receiver)
     m.save()
-    return redirect('/sent.html')
+    return redirect('/inbox.html')
 
 def sent(request):
     filteredMessageObjects = Message.objects.filter(sender=request.user)
     return render(request, 'messenger/sent.html', {'filteredMessageObjects': filteredMessageObjects})
+
+
+
+
+
+
+
+def inbox(request):
+    filteredMessageObjects = Message.objects.filter(receiver=request.user)
+    return render(request, 'messenger/inbox.html', {'filteredMessageObjects': filteredMessageObjects, 'user': request.user})
+
 
 

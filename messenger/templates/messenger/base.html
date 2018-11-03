@@ -14,6 +14,9 @@
         <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
       {% endif %}
       <hr>
+        <a class="action" href="/"><button class="home">Home</button></a>
+        <a class="action" href="/message_create"><button class="message_create">Create Message</button></a>
+        <a class="action" href="/message_edit"><button class="message_edit">Edit Message</button></a>
     </header>
     <main>
       {% block content %}
