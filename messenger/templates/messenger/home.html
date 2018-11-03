@@ -1,0 +1,8 @@
+{% extends 'messenger/base.html' %}
+
+{% block content %}
+  <h2>Welcome, {{ user.username }}!</h2>
+    <a class="action" href="/message_create"><button class="message_create">Create Message</button></a>
+    <a class="action" href="/message_edit"><button class="message_edit">Edit Message</button></a>
+
+{% endblock %}

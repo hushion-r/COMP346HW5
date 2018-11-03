@@ -1,0 +1,10 @@
+{% extends 'messenger/base.html' %}
+
+{% block content %}
+  <h2>Message edit here</h2>
+    <form action="/message_save" method="post">
+        {% csrf_token %}
+        <textarea></textarea>
+        <input type="submit">
+    </form>
+{% endblock %}

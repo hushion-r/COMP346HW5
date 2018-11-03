@@ -1,0 +1,21 @@
+{% extends 'messenger/base.html' %}
+
+{% block content %}
+  <h2>Create a message!</h2>
+    <form action="/message_save.html" method="post">
+        {% csrf_token %}
+        <h4>Recipient</h4>
+        <select name="recipient">
+            {% for user in users %}
+                <option value="{{ user }}">{{ user }}</option>
+            {% endfor %}
+        </select>
+
+
+        <h5>Message</h5>
+        <textarea name="message"></textarea>
+
+        <input type="submit">
+    </form>
+
+{% endblock %}
