@@ -2,11 +2,13 @@
 
 {% block content %}
   <h2>Inbox</h2>
-    {% for message in filteredMessageObjects %}
-{#        {% if message.receiver == user.username %}#}
-            <h5>{{ message.sender }}</h5>
-            <p>{{ message.text }}</p>
-{#        {% endif %}#}
+    <hr>
+    {% for message in filtered_message_objects %}
+        <h5>{{ message.sender }}</h5>
+        <p>{{ message.text }}</p>
+        <sup>{{ message.date }}</sup>
+        <br>
+        <hr>
     {% endfor %}
 
 

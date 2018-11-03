@@ -33,35 +33,49 @@ def message_create(request):
     return render(request, 'messenger/message_create.html', {'users': users})
 
 @login_required
-def message_edit(request):
-    return redirect(request, 'messenger/message_edit.html')
-
-@login_required
 def message_save(request):
     sender = request.user
     text = request.POST.get('message')
     receiver_username = request.POST.get('recipient')
     receiver = User.objects.get(username=receiver_username)
-    m = Message(text=text,
-                sent=True,
-                sender=sender,
-                receiver=receiver)
+    if request.POST.get('submit'):
+        m = Message(text=text,
+                    sent=True,
+                    sender=sender,
+                    receiver=receiver)
+    else:   # elif request.POST.get('save')
+        m = Message(text=text,
+                    sent=False,
+                    sender=sender,
+                    receiver=receiver)
     m.save()
     return redirect('/inbox.html')
 
+@login_required
 def sent(request):
-    filteredMessageObjects = Message.objects.filter(sender=request.user)
-    return render(request, 'messenger/sent.html', {'filteredMessageObjects': filteredMessageObjects})
+    filtered_message_objects = Message.objects.filter(sender=request.user, sent=True)
+    return render(request, 'messenger/sent.html', {'filtered_message_objects': filtered_message_objects})
 
-
-
-
-
-
-
+@login_required
 def inbox(request):
-    filteredMessageObjects = Message.objects.filter(receiver=request.user)
-    return render(request, 'messenger/inbox.html', {'filteredMessageObjects': filteredMessageObjects, 'user': request.user})
+    filtered_message_objects = Message.objects.filter(receiver=request.user, sent=True)
+    return render(request, 'messenger/inbox.html', {'filtered_message_objects': filtered_message_objects})
+
+@login_required
+def drafts(request):
+    filtered_message_objects = Message.objects.filter(sender=request.user, sent=False)
+    for draft in filtered_message_objects:
+        print(draft)
+    return render(request, 'messenger/drafts.html', {'filtered_message_objects': filtered_message_objects})
+
+@login_required
+def message_edit(request):
+    users = User.objects.all()
+    message = request.POST.get('message_edit')
+    print(message)
+    return render(request, 'messenger/message_edit.html', {'users': users, 'message': message})
+
+
 
 
 

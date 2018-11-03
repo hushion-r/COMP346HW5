@@ -12,5 +12,3 @@ class Message(models.Model):
     date = models.DateField(auto_now_add=True)
     sender = models.ForeignKey(User, related_name='sent', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='received', on_delete=models.CASCADE)
-
-# class User():
