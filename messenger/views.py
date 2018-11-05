@@ -23,12 +23,34 @@ def signup(request):
     return render(request, 'messenger/signup.html', {'form': form})
 
 @login_required
+def inbox(request):
+    """ shows all received messages """
+    filtered_message_objects = Message.objects.filter(receiver=request.user, sent=True)
+    return render(request, 'messenger/inbox.html', {'filtered_message_objects': filtered_message_objects})
+
+@login_required
+def sent(request):
+    """ shows all sent messages """
+    filtered_message_objects = Message.objects.filter(sender=request.user, sent=True)
+    return render(request, 'messenger/sent.html', {'filtered_message_objects': filtered_message_objects})
+
+@login_required
+def drafts(request):
+    """ shows all drafted messages """
+    filtered_message_objects = Message.objects.filter(sender=request.user, sent=False)
+    for draft in filtered_message_objects:
+        print(draft)
+    return render(request, 'messenger/drafts.html', {'filtered_message_objects': filtered_message_objects})
+
+@login_required
 def message_create(request):
+    """ takes old message. form to send message/save message as draft """
     users = User.objects.all()
     return render(request, 'messenger/message_create.html', {'users': users})
 
 @login_required
 def message_save(request):
+    """ sends message/save message as draft by creating new Message object. interacts with 'message_create.html' """
     sender = request.user
     text = request.POST.get('message')
     receiver_username = request.POST.get('recipient')
@@ -38,6 +60,8 @@ def message_save(request):
                     sent=True,
                     sender=sender,
                     receiver=receiver)
+        m.save()
+        return redirect('/sent.html')
     else:   # elif request.POST.get('save')
         m = Message(text=text,
                     sent=False,
@@ -47,9 +71,18 @@ def message_save(request):
     m.save()
     return redirect('/inbox.html')
 
+@login_required
+def message_edit(request):
+    """ takes old message. form to send message/save message as draft """
+    users = User.objects.all()
+    id = request.POST.get('message_edit')
+    message = Message.objects.filter(id=id)
+    return render(request, 'messenger/message_edit.html', {'users': users, 'message': message[0]})
 
 @login_required
 def message_update(request, message_id):
+    """ loads draft message. sends message/save message as draft by updating Message object.
+    interacts with 'message_edit.html' """
     old_message = Message.objects.filter(id=message_id)[0]
     old_message.sender = request.user
     old_message.text = request.POST.get('message')
@@ -57,32 +90,9 @@ def message_update(request, message_id):
     old_message.receiver = User.objects.get(username=receiver_username)
     if request.POST.get('submit'):
         old_message.sent = True
+        old_message.save()
+        return redirect('/sent')
     else:   # elif request.POST.get('save')
         old_message.sent = False
     old_message.save()
     return redirect('/inbox.html')
-
-@login_required
-def sent(request):
-    filtered_message_objects = Message.objects.filter(sender=request.user, sent=True)
-    return render(request, 'messenger/sent.html', {'filtered_message_objects': filtered_message_objects})
-
-@login_required
-def inbox(request):
-    filtered_message_objects = Message.objects.filter(receiver=request.user, sent=True)
-    return render(request, 'messenger/inbox.html', {'filtered_message_objects': filtered_message_objects})
-
-@login_required
-def drafts(request):
-    filtered_message_objects = Message.objects.filter(sender=request.user, sent=False)
-    for draft in filtered_message_objects:
-        print(draft)
-    return render(request, 'messenger/drafts.html', {'filtered_message_objects': filtered_message_objects})
-
-@login_required
-def message_edit(request):
-    users = User.objects.all()
-    id = request.POST.get('message_edit')
-    message = Message.objects.filter(id=id)
-    return render(request, 'messenger/message_edit.html', {'users': users, 'message': message[0]})
-
