@@ -8,11 +8,6 @@ from django.http.response import HttpResponse
 from .models import Message
 
 
-@login_required
-def home(request):
-    messages = Message.objects.filter(sender=request.user)
-    return render(request, 'messenger/home.html', {'messages': Message.objects.all()})
-
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

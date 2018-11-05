@@ -1,40 +1,48 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}My Django App{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <style>
-        body {
-            padding: 1.5em;
-        }
-        td {
-            padding-right: 1em;
-        }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>My Site</h1>
-      {% if user.is_authenticated %}
-          <table></table>
-            <td><a href="/">Home</a></td>
-            <td><a href="/inbox">Inbox</a></td>
-            <td><a href="/sent">Sent</a></td>
-            <td><a href="/drafts">Drafts</a></td>
-            <td><a href="/message_create">Create Message</a></td>
-            <td>{{ user.username }}</td>
-            <td><a href="{% url 'logout' %}">logout</a></td>
-      {% else %}
-        <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
-      {% endif %}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-      <hr>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static "style.css" %}" type="text/css" charset="utf-8">
+
+        <title>{% block title %}Messenger App{% endblock %}</title>
+
+    </head>
+    <body>
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand"><h1>Messenger</h1></a>
+        {% if user.is_authenticated %}
+          <div class="navbar-nav-scroll">
+              <ul class="navbar-nav bd-navbar-nav flex-row">
+                  <li class="nav-item"><a href="/inbox">Inbox</a></li>
+                  <li class="nav-item"><a href="/sent">Sent</a></li>
+                  <li class="nav-item"><a href="/drafts">Drafts</a></li>
+                  <li class="nav-item"><a href="/message_create">Create Message</a></li>
+              </ul>
+          </div>
+            <ul class="navbar-nav flex-row-reverse ml-md-auto d-none d-md-flex">
+                <li class="nav-item"><a href="{% url 'logout' %}">Logout</a></li>
+                <li class="nav-item">Hello, {{ user.username }}!</li>
+            </ul>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> / <a href="{% url 'signup' %}">Signup</a>
+        {% endif %}
+
+        <hr>
 
     </header>
     <main>
-      {% block content %}
-      {% endblock %}
+        {% block content %}
+        {% endblock %}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </main>
-  </body>
+    </body>
 </html>

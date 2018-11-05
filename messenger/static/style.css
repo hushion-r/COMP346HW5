@@ -1,0 +1,71 @@
+/*Rae Hushion. HW5*/
+
+.navbar {
+    padding-right: -1em;
+    margin-bottom: 1em;
+    background-color: darkslategrey;
+    color: white;
+}
+
+.navbar a {
+    color: lightgrey;
+}
+
+.navbar a:hover {
+    color: white;
+}
+
+.nav-item {
+    margin-left: .5em;
+    margin-right: .5em;
+}
+
+.col {
+    padding-right: 1em;
+}
+
+.content {
+    margin-left: 1em;
+}
+
+.messages {
+    margin-left: 0;
+}
+
+.date {
+    font-size: .8em;
+    text-align: right;
+}
+
+.text {
+    color: darkmagenta;
+    margin-left: 1em;
+}
+
+
+body {
+    border-left: 1.5em;
+    border-right: 1.5em;
+    background-color: lightcyan;
+}
+
+body>div {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h4 {
+    font-size: 1.3em;
+}
+
+h5 {
+    font-size: 1.2em;
+}

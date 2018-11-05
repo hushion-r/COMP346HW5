@@ -1,20 +1,35 @@
 {% extends 'messenger/base.html' %}
 
 {% block content %}
-  <h2>Drafts</h2>
-    <hr>
-    {% for message in filtered_message_objects %}
-        <h5>{{ message.receiver }}</h5>
-        <p>{{ message.text }}</p>
-        <sup>{{ message.date }}</sup>
-        <form action="/message_edit.html" method="post" >
-            {% csrf_token %}
-            <button name="message_edit" type="submit" value="{{ message.id }}">Edit</button>
-        </form>
-        <br>
+    <div class="content">
+        <h2>Drafts</h2>
         <hr>
-    {% endfor %}
-
-
+        <div class="container messages">
+            {% for message in filtered_message_objects %}
+                <div class="row">
+                    <div class="col-sm">
+                        <h5>{{ message.receiver }}</h5>
+                    </div>
+                    <div class="col-sm date">
+                        <p>{{ message.date }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm text">
+                        <p>{{ message.text }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm text">
+                        <form action="/message_edit.html" method="post" >
+                            {% csrf_token %}
+                            <button name="message_edit" type="submit" class="btn btn-outline-primary btn-sm" value="{{ message.id }}">Edit</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}
